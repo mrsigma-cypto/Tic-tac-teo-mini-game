@@ -93,7 +93,7 @@
 <body>
   <div class="screen home" id="homeScreen">
     <h1>Welcome to Cartoon Tic Tac Toe</h1>
-    <button onclick="startGame()">Play Now</button>
+    <button id="playBtn">Play Now</button>
   </div>
 
   <div class="screen game" id="gameScreen">
@@ -112,6 +112,7 @@
   <script>
     const homeScreen = document.getElementById("homeScreen");
     const gameScreen = document.getElementById("gameScreen");
+    const playBtn = document.getElementById("playBtn");
     const boardEl = document.getElementById("board");
     const resultText = document.getElementById("resultText");
     const emoji = document.getElementById("emoji");
@@ -123,11 +124,11 @@
     let board = ["", "", "", "", "", "", "", "", ""];
     let gameOver = false;
 
-    function startGame() {
+    playBtn.addEventListener("click", () => {
       homeScreen.style.display = "none";
       gameScreen.style.display = "flex";
       drawBoard();
-    }
+    });
 
     function drawBoard() {
       boardEl.innerHTML = "";
@@ -223,7 +224,7 @@
       emoji.style.display = "block";
       winSound.play();
       gameOver = true;
-      drawBoard(); // re-render to lock all cells
+      drawBoard(); // re-render to lock cells
     }
 
     function resetGame() {
