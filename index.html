@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Neon Tic Tac Toe</title>
+  <title>Cartoon Tic Tac Toe</title>
   <style>
     body {
-      background-color: #0a0026;
+      background-color: #0b1d3a; /* Navy blue */
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
     .board {
@@ -18,69 +19,108 @@
       grid-template-columns: repeat(3, 100px);
       grid-template-rows: repeat(3, 100px);
       gap: 10px;
-      border: 5px solid #c400ff;
-      padding: 10px;
+      background-color: #ffffff;
+      padding: 15px;
       border-radius: 20px;
-      box-shadow: 0 0 20px #c400ff;
-      position: relative;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
     }
 
     .cell {
+      position: relative;
       width: 100px;
       height: 100px;
-      background: transparent;
-      border: 2px solid #8a2be2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 60px;
-      font-family: Arial, sans-serif;
-      font-weight: bold;
-      cursor: default;
-      color: white;
-      box-shadow: inset 0 0 10px #8a2be2;
+      background: #fefefe;
+      border-radius: 15px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
     }
 
-    .x {
-      color: #00bfff;
-      text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
-    }
-
-    .o {
-      color: #ff004f;
-      text-shadow: 0 0 10px #ff004f, 0 0 20px #ff004f;
-    }
-
-    .win-line {
+    .cell input {
       position: absolute;
-      top: 0;
-      left: 50%;
-      width: 6px;
+      width: 100%;
       height: 100%;
-      background: yellow;
-      box-shadow: 0 0 20px yellow;
-      transform: translateX(-50%);
+      opacity: 0;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .cell label {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-content: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+
+    .cell input:nth-of-type(1):checked ~ label::before {
+      content: "X";
+      color: #ff4c4c; /* Red */
+      animation: pop 0.3s ease forwards;
+    }
+
+    .cell input:nth-of-type(2):checked ~ label::before {
+      content: "O";
+      color: #4cc9ff; /* Sky blue */
+      animation: pop 0.3s ease forwards;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
-
   <div class="board">
-    <div class="cell x">X</div>
-    <div class="cell o">O</div>
-    <div class="cell"></div>
-    
-    <div class="cell x">X</div>
-    <div class="cell o">O</div>
-    <div class="cell x">X</div>
-    
-    <div class="cell o">O</div>
-    <div class="cell o">O</div>
-    <div class="cell x">X</div>
-
-    <!-- Win line in the center vertical -->
-    <div class="win-line"></div>
+    <!-- Repeat for each of the 9 cells -->
+    <div class="cell">
+      <input type="radio" name="cell0" id="x0">
+      <input type="radio" name="cell0" id="o0">
+      <label for="x0"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell1" id="x1">
+      <input type="radio" name="cell1" id="o1">
+      <label for="x1"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell2" id="x2">
+      <input type="radio" name="cell2" id="o2">
+      <label for="x2"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell3" id="x3">
+      <input type="radio" name="cell3" id="o3">
+      <label for="x3"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell4" id="x4">
+      <input type="radio" name="cell4" id="o4">
+      <label for="x4"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell5" id="x5">
+      <input type="radio" name="cell5" id="o5">
+      <label for="x5"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell6" id="x6">
+      <input type="radio" name="cell6" id="o6">
+      <label for="x6"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell7" id="x7">
+      <input type="radio" name="cell7" id="o7">
+      <label for="x7"></label>
+    </div>
+    <div class="cell">
+      <input type="radio" name="cell8" id="x8">
+      <input type="radio" name="cell8" id="o8">
+      <label for="x8"></label>
+    </div>
   </div>
-
 </body>
 </html>
