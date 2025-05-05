@@ -157,83 +157,131 @@
       if (gameOver) return;
       let move = getBestMove();
       board[move] = "O";
-      oSound.play();
+<script>
+  const homeScreen = document.getElementById("homeScreen");
+  const gameScreen = document.getElementById("gameScreen");
+  const boardEl = document.getElementById("board");
+  const resultText = document.getElementById("resultText");
+  const emoji = document.getElementById("emoji");
+
+  const xSound = document.getElementById("xSound");
+  const oSound = document.getElementById("oSound");
+  const winSound = document.getElementById("winSound");
+
+  let board = ["", "", "", "", "", "", "", "", ""];
+  let gameOver = false;
+
+  function startGame() {
+    homeScreen.style.display = "none";
+    gameScreen.style.display = "flex";
+    drawBoard();
+  }
+
+  function drawBoard() {
+    boardEl.innerHTML = "";
+    board.forEach((val, i) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      if (val === "X") cell.classList.add("x");
+      else if (val === "O") cell.classList.add("o");
+      cell.textContent = val;
+      if (!gameOver && val === "") {
+        cell.addEventListener("click", () => playerMove(i));
+      }
+      boardEl.appendChild(cell);
+    });
+  }
+
+  function playerMove(i) {
+    if (board[i] === "" && !gameOver) {
+      board[i] = "X";
+      xSound.play();
       drawBoard();
-      if (checkWinner("O")) return endGame("AI wins!", "skyblue");
+      if (checkWinner("X")) return endGame("You win!", "red");
       if (isDraw()) return endGame("Draw!", null);
+      setTimeout(aiMove, 500);
     }
+  }
 
-    function getBestMove() {
-      // Win if possible
-      for (let i = 0; i < 9; i++) {
-        if (board[i] === "") {
-          board[i] = "O";
-          if (checkWinner("O")) {
-            board[i] = "";
-            return i;
-          }
+  function aiMove() {
+    if (gameOver) return;
+    let move = getBestMove();
+    board[move] = "O";
+    oSound.play();
+    drawBoard();
+    if (checkWinner("O")) return endGame("AI wins!", "skyblue");
+    if (isDraw()) return endGame("Draw!", null);
+  }
+
+  function getBestMove() {
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === "") {
+        board[i] = "O";
+        if (checkWinner("O")) {
           board[i] = "";
+          return i;
         }
+        board[i] = "";
       }
-      // Block player
-      for (let i = 0; i < 9; i++) {
-        if (board[i] === "") {
-          board[i] = "X";
-          if (checkWinner("X")) {
-            board[i] = "";
-            return i;
-          }
+    }
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === "") {
+        board[i] = "X";
+        if (checkWinner("X")) {
           board[i] = "";
+          return i;
         }
+        board[i] = "";
       }
-      // Otherwise random
-      let empty = board.map((val, i) => val === "" ? i : null).filter(v => v !== null);
-      return empty[Math.floor(Math.random() * empty.length)];
     }
+    let empty = board.map((val, i) => val === "" ? i : null).filter(v => v !== null);
+    return empty[Math.floor(Math.random() * empty.length)];
+  }
 
-    function checkWinner(player) {
-      const winCombos = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-      ];
-      for (let combo of winCombos) {
-        if (combo.every(i => board[i] === player)) {
-          highlightWin(combo);
-          gameOver = true;
-          return true;
-        }
+  function checkWinner(player) {
+    const winCombos = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+    for (let combo of winCombos) {
+      if (combo.every(i => board[i] === player)) {
+        highlightWin(combo);
+        gameOver = true;
+        return true;
       }
-      return false;
     }
+    return false;
+  }
 
-    function highlightWin(combo) {
-      const cells = boardEl.children;
-      combo.forEach(i => {
-        cells[i].classList.add("win");
-      });
-    }
+  function highlightWin(combo) {
+    const cells = boardEl.children;
+    combo.forEach(i => {
+      cells[i].classList.add("win");
+    });
+  }
 
-    function isDraw() {
-      return board.every(cell => cell !== "");
-    }
+  function isDraw() {
+    return board.every(cell => cell !== "");
+  }
 
-    function endGame(message, color) {
-      resultText.textContent = message;
-      if (color) resultText.style.color = color;
-      emoji.style.display = "block";
-      winSound.play();
-      gameOver = true;
-    }
+  function endGame(message, color) {
+    resultText.textContent = message;
+    if (color) resultText.style.color = color;
+    emoji.style.display = "block";
+    winSound.play();
+    gameOver = true;
+    drawBoard(); // re-render to lock all cells
+  }
 
-    function resetGame() {
-      board = ["", "", "", "", "", "", "", "", ""];
-      gameOver = false;
-      resultText.textContent = "";
-      resultText.style.color = "white";
-      emoji.style.display = "none";
-      drawBoard();
-    }
+  function resetGame() {
+    board = ["", "", "", "", "", "", "", "", ""];
+    gameOver = false;
+    resultText.textContent = "";
+    resultText.style.color = "white";
+    emoji.style.display = "none";
+    drawBoard();
+  }
   </script>
 </body>
 </html>
