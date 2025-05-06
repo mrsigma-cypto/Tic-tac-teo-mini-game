@@ -13,6 +13,7 @@ let gameState = ['', '', '', '', '', '', '', '', ''];
 let humanPlayer = 'X';
 let aiPlayer = 'O';
 let gameActive = true;
+let currentTurn = 'X'; // Ensure one turn at a time
 
 const winPatterns = [
   [0,1,2],[3,4,5],[6,7,8],
@@ -45,16 +46,20 @@ function renderBoard() {
 }
 
 function handleHumanMove(index) {
-  if (!gameState[index] && gameActive) {
+  if (!gameState[index] && gameActive && currentTurn === humanPlayer) {
     gameState[index] = humanPlayer;
+    currentTurn = aiPlayer;
     renderBoard();
     if (checkGameOver(humanPlayer)) return;
+
     setTimeout(() => {
       const move = getNormalAIMove();
       if (move !== undefined) {
         gameState[move] = aiPlayer;
         renderBoard();
-        checkGameOver(aiPlayer);
+        if (!checkGameOver(aiPlayer)) {
+          currentTurn = humanPlayer;
+        }
       }
     }, 400);
   }
@@ -71,7 +76,7 @@ function checkGameOver(player) {
     gameActive = false;
     return true;
   }
-  currentPlayerDisplay.textContent = player === humanPlayer ? aiPlayer : humanPlayer;
+  currentPlayerDisplay.textContent = currentTurn;
   return false;
 }
 
@@ -117,6 +122,7 @@ function showPopup(message) {
 function restartGame() {
   gameState = ['', '', '', '', '', '', '', '', ''];
   gameActive = true;
+  currentTurn = humanPlayer;
   currentPlayerDisplay.textContent = humanPlayer;
   popup.style.display = 'none';
   renderBoard();
