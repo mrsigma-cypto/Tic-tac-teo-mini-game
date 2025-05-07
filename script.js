@@ -13,7 +13,7 @@ let gameState = ['', '', '', '', '', '', '', '', ''];
 let humanPlayer = 'X';
 let aiPlayer = 'O';
 let gameActive = true;
-let currentTurn = 'X'; // Ensure one turn at a time
+let currentTurn = 'X'; // Track whose turn
 
 const winPatterns = [
   [0,1,2],[3,4,5],[6,7,8],
@@ -48,9 +48,11 @@ function renderBoard() {
 function handleHumanMove(index) {
   if (!gameState[index] && gameActive && currentTurn === humanPlayer) {
     gameState[index] = humanPlayer;
-    currentTurn = aiPlayer;
     renderBoard();
     if (checkGameOver(humanPlayer)) return;
+
+    currentTurn = aiPlayer;
+    updateTurnLabel();
 
     setTimeout(() => {
       const move = getNormalAIMove();
@@ -59,6 +61,7 @@ function handleHumanMove(index) {
         renderBoard();
         if (!checkGameOver(aiPlayer)) {
           currentTurn = humanPlayer;
+          updateTurnLabel();
         }
       }
     }, 400);
@@ -76,7 +79,6 @@ function checkGameOver(player) {
     gameActive = false;
     return true;
   }
-  currentPlayerDisplay.textContent = currentTurn;
   return false;
 }
 
@@ -123,9 +125,17 @@ function restartGame() {
   gameState = ['', '', '', '', '', '', '', '', ''];
   gameActive = true;
   currentTurn = humanPlayer;
-  currentPlayerDisplay.textContent = humanPlayer;
+  updateTurnLabel();
   popup.style.display = 'none';
   renderBoard();
+}
+
+function updateTurnLabel() {
+  if (currentTurn === humanPlayer) {
+    currentPlayerDisplay.textContent = "Your Turn: X";
+  } else {
+    currentPlayerDisplay.textContent = "Computer's Turn: O";
+  }
 }
 
 restartBtn.addEventListener('click', restartGame);
