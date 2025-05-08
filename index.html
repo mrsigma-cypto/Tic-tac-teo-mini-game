@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tic-Tac-Toe</title>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    .banner-ad {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #fff;
+      text-align: center;
+      z-index: 1000;
+    }
+    body {
+      padding-bottom: 60px; /* Reserve space for banner */
+    }
+  </style>
 </head>
 <body>
   <!-- Dark Mode Toggle -->
@@ -37,8 +53,19 @@
     </div>
   </div>
 
-  <!-- Adsterra Social Bar Ad (only one) -->
-  <script type='text/javascript' src='//pl26591546.profitableratecpm.com/31/98/c4/3198c40a1f33df302086ff176c3335f9.js'></script>
+  <!-- Adsterra Banner Ad -->
+  <div class="banner-ad">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : 'a0c7ffea6c2a78a0b0bb5c1518c723fe',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/a0c7ffea6c2a78a0b0bb5c1518c723fe/invoke.js"></script>
+  </div>
 
   <script src="script.js"></script>
 </body>
